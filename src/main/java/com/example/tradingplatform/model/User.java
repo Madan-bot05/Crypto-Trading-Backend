@@ -24,4 +24,5 @@ public class User {
     @Embedded
     private TwoFactAuth twoFactAuth=new TwoFactAuth();
     private USER_ROLE role=USER_ROLE.ROLE_CUSTOMER;
+    private Long mobile;
 }
