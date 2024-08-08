@@ -27,6 +27,5 @@ public class AuthController {
 
         User savedUser=userRepository.save(newUser);
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
-
     }
 }
