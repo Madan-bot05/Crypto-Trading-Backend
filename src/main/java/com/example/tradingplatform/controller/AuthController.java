@@ -6,6 +6,7 @@ import com.example.tradingplatform.model.User;
 import com.example.tradingplatform.repository.UserRepository;
 import com.example.tradingplatform.response.AuthResponse;
 import com.example.tradingplatform.service.CustomUserDetailsService;
+import com.example.tradingplatform.utils.OtpUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -56,9 +57,16 @@ public class AuthController {
         String username=user.getEmail();
         String password=user.getPassword();
         Authentication auth=authenticate(username,password);
-
-
+        SecurityContextHolder.getContext().setAuthentication(auth);
         String jwt= JwtProvider.generateToken(auth);
+
+        if(user.getTwoFactAuth().isEnabled()){
+            AuthResponse res=new AuthResponse();
+            res.setMessage("Two factor Auth Enabled");
+            res.setTwoFactorAuthEnabled(true);
+            String otp= OtpUtils.generateOtp();
+
+        }
         AuthResponse res=new AuthResponse();
         res.setJwt(jwt);
         res.setStatus(true);
